@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend:
+    name: .NET Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        run: dotnet restore AuctionPlatformGe.slnx
+        working-directory: AuctionPlatformGe
+
+      - name: Build
+        run: dotnet build AuctionPlatformGe.slnx --no-restore -c Release
+        working-directory: AuctionPlatformGe
+
+      - name: Test
+        run: dotnet test AuctionPlatformGe.slnx --no-build -c Release --logger "console;verbosity=normal"
+        working-directory: AuctionPlatformGe
+
+  frontend:
+    name: Angular Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: AuctionPlatformGe/auction-client/package.json
+
+      - name: Install
+        run: npm install
+        working-directory: AuctionPlatformGe/auction-client
+
+      - name: Build
+        run: npm run build
+        working-directory: AuctionPlatformGe/auction-client
+
+      - name: Unit tests
+        run: npm run test:unit
+        working-directory: AuctionPlatformGe/auction-client

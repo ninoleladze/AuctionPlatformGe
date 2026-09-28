@@ -1,0 +1,28 @@
+<nav class="navbar">
+  <a class="nav-brand" routerLink="/auctions">AuctionPlatformGe</a>
+  <div class="nav-links">
+    <a routerLink="/auctions">Auctions</a>
+    @if (isLoggedIn$ | async) {
+      @if (isAdmin$ | async) {
+        <a routerLink="/auctions/create">+ Create</a>
+        <a routerLink="/admin" class="nav-admin">Admin Panel</a>
+      }
+      <a routerLink="/my-auctions">My Auctions</a>
+      <a routerLink="/bids/history">Bid History</a>
+      <a routerLink="/wallet">Wallet</a>
+    }
+    @if (user$ | async; as user) {
+      <span class="nav-user">{{ user.username }}</span>
+      @if (user.role === 'Admin') {
+        <span class="nav-role-badge">Admin</span>
+      }
+      <span class="nav-balance" title="Bid credits">{{ user.bidBalance }} bids</span>
+      <button class="nav-logout" (click)="logout()">Logout</button>
+    } @else {
+      <a routerLink="/login">Login</a>
+      <a routerLink="/register">Register</a>
+    }
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

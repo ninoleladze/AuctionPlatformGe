@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="AuctionPlatformGe.API/AuctionPlatformGe.API.csproj" />
+  <Project Path="AuctionPlatformGe.Application/AuctionPlatformGe.Application.csproj" />
+  <Project Path="AuctionPlatformGe.Core/AuctionPlatformGe.Core.csproj" />
+  <Project Path="AuctionPlatformGe.Infrastructure/AuctionPlatformGe.Infrastructure.csproj" />
+  <Project Path="AuctionPlatformGe.Tests/AuctionPlatformGe.Tests.csproj" />
+</Solution>

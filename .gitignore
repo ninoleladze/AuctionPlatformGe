@@ -1,0 +1,23 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.lscache
+.vs/
+TestResults/
+
+# Node / Angular / React
+node_modules/
+dist/
+build/
+.angular/
+
+# Local secrets
+.env
+appsettings.*.local.json
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.claude/

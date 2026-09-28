@@ -1,0 +1,19 @@
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+COPY ["AuctionPlatformGe.API/AuctionPlatformGe.API.csproj",             "AuctionPlatformGe.API/"]
+COPY ["AuctionPlatformGe.Application/AuctionPlatformGe.Application.csproj", "AuctionPlatformGe.Application/"]
+COPY ["AuctionPlatformGe.Infrastructure/AuctionPlatformGe.Infrastructure.csproj", "AuctionPlatformGe.Infrastructure/"]
+COPY ["AuctionPlatformGe.Core/AuctionPlatformGe.Core.csproj",           "AuctionPlatformGe.Core/"]
+RUN dotnet restore "AuctionPlatformGe.API/AuctionPlatformGe.API.csproj"
+COPY . .
+WORKDIR "/src/AuctionPlatformGe.API"
+RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=build /app/publish .
+ENTRYPOINT ["dotnet", "AuctionPlatformGe.API.dll"]
